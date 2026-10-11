@@ -1,0 +1,68 @@
+# 每交易日收盘后: 涨停池(带原因分类)+7x24新闻+大盘资金 → 归档 t13
+# 16:00 CST = 08:00 UTC; ~2min/run ≈ 44min/月
+name: daily-events
+on:
+  schedule:
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Collect events
+        run: |
+          mkdir -p events news fundflow
+          python3 - << 'PYEOF'
+          import json, urllib.request, datetime, os
+          today = datetime.datetime.utcnow().astimezone(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d")
+          d10 = datetime.datetime.utcnow().astimezone(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y%m%d")
+          # ① 涨停池 (东财 push2ex, 带原因)
+          try:
+              u = f"https://push2ex.eastmoney.com/getTopicZTPool?ut=7eea3edcaed734bea9cbfc24409ed989&dpt=wz.ztzt&Pageindex=0&pagesize=1000&sort=fbt%3Aasc&date={d10}"
+              pool = json.load(urllib.request.urlopen(u, timeout=20))
+              zts = pool.get("data", {}).get("pool", []) or []
+              lines = [f"# 涨停池 {today}  共{len(zts)}只", "", "| 代码 | 名称 | 涨幅 | 封单(手) | 首次封板 | 连板数 |", "|---|---|---|---|---|---|"]
+              for z in zts:
+                  lines.append(f"| {z.get('c','')} | {z.get('n','')} | {z.get('zdp',0)}% | {z.get('lbc0',0)/100:.0f} | {z.get('fbt',0)//100:02d}:{z.get('fbt',0)%100:02d} | {z.get('lbc',1)} |")
+              open(f"events/{today}-ztpool.md","w").write("
+".join(lines))
+              print("ztpool:", len(zts))
+          except Exception as e:
+              print("ztpool err:", e)
+          # ② 7x24 新闻
+          try:
+              u = "https://app.cj.sina.com.cn/api/news/pc?page=1&page_size=100"
+              news = json.load(urllib.request.urlopen(u, timeout=20))
+              items = news.get("result", {}).get("data", [])
+              nl = [f"# 7x24 {today}", ""]
+              for it in items[:100]:
+                  nl.append(f"- {it.get('ctime','')} {it.get('title','')}")
+              open(f"news/{today}.md","w").write("
+".join(nl))
+              print("news:", len(items))
+          except Exception as e:
+              print("news err:", e)
+          # ③ 大盘快照(腾讯)
+          try:
+              u = "https://qt.gtimg.cn/q=sh000001,sz399001,sz399006,sh000300"
+              req = urllib.request.Request(u, headers={"Referer": "https://gu.qq.com"})
+              raw = req and urllib.request.urlopen(req, timeout=20).read().decode("gbk")
+              open(f"fundflow/{today}-index.txt","w").write(raw)
+              print("index ok")
+          except Exception as e:
+              print("index err:", e)
+          PYEOF
+      - name: Commit
+        run: |
+          git config user.name "events-bot"
+          git config user.email "events-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "events: $(date +%F)" || echo "no change"
+          git push

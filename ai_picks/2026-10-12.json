@@ -1,0 +1,143 @@
+{
+ "ts": "2026-10-12T08:19:38.575084",
+ "date": "2026-10-09",
+ "rule": "未涨停+主板+涨幅0.5-7%+240日位<60%, 五因子评分(量比/动量/低位/收盘强度/规模)",
+ "anchor": "量比4-9+涨2-5%+近高: n=206 avg+1.32% win48% 冲高5%=35.4% (全历史网格回测最优)",
+ "picks": [
+  {
+   "symbol": "sh601717",
+   "close": 13.79,
+   "ret": 0.033,
+   "vratio": 1.716,
+   "pos240": 0.063,
+   "close_pos": 1.0,
+   "score": 0.868
+  },
+  {
+   "symbol": "sh603352",
+   "close": 25.52,
+   "ret": 0.021,
+   "vratio": 1.713,
+   "pos240": 0.036,
+   "close_pos": 0.967,
+   "score": 0.862
+  },
+  {
+   "symbol": "sz001257",
+   "close": 20.85,
+   "ret": 0.021,
+   "vratio": 1.488,
+   "pos240": 0.036,
+   "close_pos": 1.0,
+   "score": 0.86
+  },
+  {
+   "symbol": "sh603383",
+   "close": 27.17,
+   "ret": 0.041,
+   "vratio": 1.545,
+   "pos240": 0.113,
+   "close_pos": 0.986,
+   "score": 0.854
+  },
+  {
+   "symbol": "sz000766",
+   "close": 14.97,
+   "ret": 0.042,
+   "vratio": 1.41,
+   "pos240": 0.042,
+   "close_pos": 0.96,
+   "score": 0.848
+  },
+  {
+   "symbol": "sh603786",
+   "close": 37.55,
+   "ret": 0.032,
+   "vratio": 1.381,
+   "pos240": 0.027,
+   "close_pos": 0.931,
+   "score": 0.843
+  },
+  {
+   "symbol": "sh603271",
+   "close": 40.22,
+   "ret": 0.036,
+   "vratio": 1.977,
+   "pos240": 0.165,
+   "close_pos": 0.974,
+   "score": 0.838
+  },
+  {
+   "symbol": "sh600570",
+   "close": 19.49,
+   "ret": 0.035,
+   "vratio": 1.239,
+   "pos240": 0.04,
+   "close_pos": 0.967,
+   "score": 0.838
+  },
+  {
+   "symbol": "sz002864",
+   "close": 21.35,
+   "ret": 0.027,
+   "vratio": 1.242,
+   "pos240": 0.059,
+   "close_pos": 1.0,
+   "score": 0.834
+  },
+  {
+   "symbol": "sz002777",
+   "close": 13.0,
+   "ret": 0.04,
+   "vratio": 2.009,
+   "pos240": 0.109,
+   "close_pos": 0.96,
+   "score": 0.831
+  },
+  {
+   "symbol": "sz002558",
+   "close": 22.82,
+   "ret": 0.04,
+   "vratio": 1.122,
+   "pos240": 0.032,
+   "close_pos": 0.966,
+   "score": 0.829
+  },
+  {
+   "symbol": "sh603196",
+   "close": 17.73,
+   "ret": 0.017,
+   "vratio": 1.495,
+   "pos240": 0.025,
+   "close_pos": 0.979,
+   "score": 0.826
+  },
+  {
+   "symbol": "sh603365",
+   "close": 17.1,
+   "ret": 0.042,
+   "vratio": 2.475,
+   "pos240": 0.166,
+   "close_pos": 0.974,
+   "score": 0.826
+  },
+  {
+   "symbol": "sh600446",
+   "close": 10.68,
+   "ret": 0.052,
+   "vratio": 1.751,
+   "pos240": 0.114,
+   "close_pos": 0.972,
+   "score": 0.823
+  },
+  {
+   "symbol": "sh600729",
+   "close": 19.02,
+   "ret": 0.03,
+   "vratio": 1.507,
+   "pos240": 0.083,
+   "close_pos": 0.952,
+   "score": 0.821
+  }
+ ]
+}
